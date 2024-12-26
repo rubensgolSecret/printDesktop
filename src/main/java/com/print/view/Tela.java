@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
+import java.awt.GridLayout;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -26,13 +26,15 @@ import com.print.controler.business.imprimir.ImprimirDesktop;
 import com.print.controler.interfaces.IAtualiza;
 import com.print.controler.interfaces.IImprimir;
 import com.print.controler.interfaces.ITrataArquivo;
-import com.print.model.EnumRetorno;
 import com.print.model.LinkEtiqueta;
+import com.print.model.enums.EnumIco;
+import com.print.model.enums.EnumRetorno;
 import com.print.util.Atualizador;
 
 public class Tela extends JFrame
 {
 	private static final long serialVersionUID = 7163765538988263870L;
+	private static final Color COR_FUNDO = new Color(255, 255, 255);
 
 	private JPanel panel, panelBotao;
 	private JTextField tToken;
@@ -54,7 +56,6 @@ public class Tela extends JFrame
 	{
 		try 
 		{
-			c = getContentPane();
 			comunica = new Comunica(lidas);
 			imprimir = new ImprimirDesktop();
 			aTrataArquivo = new TrataArquivo();
@@ -71,17 +72,21 @@ public class Tela extends JFrame
 
 	private void initializeComponents()
 	{
-		panel = new JPanel(new FlowLayout());
-		panel.setSize(new Dimension(300,300));
+		c = getContentPane();
+		c.setLayout(new GridLayout(3, 1));
+
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		panel.setBackground(COR_FUNDO);
 
 		lToken = new JLabel("Digite o Token:");
 		panel.add(lToken);
 
-		panelBotao = new JPanel(new FlowLayout());
-
-	    tToken = new JTextField(20);
+	    tToken = new JTextField(41);
 	    panel.add(tToken);
-	    c.add(panel, BorderLayout.NORTH);
+	    c.add(panel, BorderLayout.PAGE_START);
+
+		panelBotao = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 20));
+		panelBotao.setBackground(COR_FUNDO);
 
 	    bIniciar = new JButton("Iniciar");
 	    bIniciar.setVisible(true);
@@ -101,10 +106,17 @@ public class Tela extends JFrame
 	    bAtualizar.addActionListener(e -> atualizarAplicativo());
 	    panelBotao.add(bAtualizar);
 
-	    c.add(panelBotao, BorderLayout.CENTER);
+	    c.add(panelBotao);
 
 	    pBuscando = new JProgressBar();
-	    c.add(pBuscando, BorderLayout.SOUTH);
+		pBuscando.setPreferredSize(new Dimension(500, 15));
+
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 42));
+		panel.setBackground(COR_FUNDO);
+
+		panel.add(pBuscando);
+
+	    c.add(panel);
 	}
 
 	private void iniciarBusca()
@@ -172,10 +184,10 @@ public class Tela extends JFrame
 
 	public void display()
 	{
-		setBackground(new Color(0, 128, 255));
+		setBackground(new Color(0, 153, 51));
 		setTitle("Imprimir etiquetas");
-		setIconImage(getIcone());
-		setSize(new Dimension(600,600));
+		setIconImage(getIcone(EnumIco.HOME).getImage());
+		setSize(new Dimension(500, 200));
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -190,10 +202,10 @@ public class Tela extends JFrame
 		pBuscando.setIndeterminate(buscando);
 	}
 
-	private Image getIcone()
+	private ImageIcon getIcone(EnumIco ico)
 	{
-		ImageIcon icon = new ImageIcon("src/print_ico.png");
+		ImageIcon icon = new ImageIcon("resources/" + ico.getDescricao());
 
-		return icon.getImage();
+		return icon;
 	}
 }

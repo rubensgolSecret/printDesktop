@@ -2,7 +2,7 @@ package com.print.view;
 
 import javax.swing.JOptionPane;
 
-import com.print.model.EnumRetorno;
+import com.print.model.enums.EnumRetorno;
 
 public  class TelaErro extends JOptionPane
 {

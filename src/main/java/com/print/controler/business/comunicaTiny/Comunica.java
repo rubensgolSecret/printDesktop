@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import com.google.gson.Gson;
-import com.print.model.EnumRetorno;
 import com.print.model.Expedica;
 import com.print.model.LinkEtiqueta;
 import com.print.model.RetornoEtiqueta;
 import com.print.model.RetornoSeparacao;
 import com.print.model.Separacao;
+import com.print.model.enums.EnumRetorno;
 import com.print.util.UrlsTiny;
 import com.print.util.Util;
 

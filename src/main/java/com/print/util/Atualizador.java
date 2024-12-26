@@ -15,7 +15,7 @@ import com.print.controler.interfaces.IAtualiza;
 
 public class Atualizador implements IAtualiza
 {
-    private static final String VERSAO_ATUAL = "1.0.1";
+    private static final String VERSAO_ATUAL = "1.0.0";
     private static final String URL_VERSAO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/versao.txt";
     private static final String URL_ARQUIVO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/print.jar";
     private static final Logger logger = Logger.getLogger(Atualizador.class.getName());
@@ -47,7 +47,7 @@ public class Atualizador implements IAtualiza
             URL url = new URL(URL_ARQUIVO);
             InputStream in = url.openStream();
 
-            Files.copy(in, Paths.get("app." + VERSAO_ATUAL + ".jar"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(in, Paths.get("print." + VERSAO_ATUAL + ".jar"), StandardCopyOption.REPLACE_EXISTING);
         
             reiniciarAplicativo();
         }
@@ -59,7 +59,7 @@ public class Atualizador implements IAtualiza
 
     private void reiniciarAplicativo() throws IOException 
     {
-        Runtime.getRuntime().exec("java -jar app." + VERSAO_ATUAL + ".jar");
+        Runtime.getRuntime().exec("java -jar print." + VERSAO_ATUAL + ".jar");
         System.exit(0);
     }
 }
