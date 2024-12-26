@@ -33,6 +33,8 @@ public class ImprimirDesktop implements IImprimir
 
 			if (path.endsWith(".zip"))
 				docFile = TrataArquivo.extraiArquivo(uri);
+			else if (path.endsWith(".zpl"))
+				docFile = TrataArquivo.converteZplToPdf(uri);
 			else
 			{
 				String nameFile = FileUtils.getTempDirectoryPath() + "tmp" + ".pdf";

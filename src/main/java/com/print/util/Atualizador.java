@@ -11,61 +11,55 @@ import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Atualizador {
+import com.print.controler.interfaces.IAtualiza;
+
+public class Atualizador implements IAtualiza
+{
     private static final String VERSAO_ATUAL = "1.0.0";
     private static final String URL_VERSAO = "https://example.com/versao.txt";
     private static final String URL_ARQUIVO = "https://example.com/app.jar";
     private static final Logger logger = Logger.getLogger(Atualizador.class.getName());
 
-    public static void main(String[] args) 
+    @Override
+    public boolean verificarAtualizacao() 
     {
         try 
         {
-            if (verificarAtualizacao()) 
-            {
-                baixarAtualizacao();
-                reiniciarAplicativo();
-            }
-            else 
-                iniciarAplicativo();
-        } 
-        catch (IOException e) 
-        {
-            logger.log(Level.SEVERE, "Erro ao verificar ou aplicar atualização", e);
-        }
-    }
+            URL url = new URL(URL_VERSAO);
 
-    private static boolean verificarAtualizacao() throws IOException
-    {
-        URL url = new URL(URL_VERSAO);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) 
-        {
             String versaoRemota = reader.readLine().trim();
             return !VERSAO_ATUAL.equals(versaoRemota);
         }
-    }
-
-    private static void baixarAtualizacao() throws IOException 
-    {
-        URL url = new URL(URL_ARQUIVO);
-
-        try (InputStream in = url.openStream()) 
+        catch(IOException e)
         {
-            Files.copy(in, Paths.get("app-atualizado.jar"), StandardCopyOption.REPLACE_EXISTING);
+            logger.log(Level.SEVERE, "Erro ao verificar atualização", e);
+            return false;
         }
     }
 
-    private static void reiniciarAplicativo() throws IOException 
+    @Override
+    public void atualiza() 
     {
-        // Código para reiniciar o aplicativo, por exemplo, executando o novo JAR
-        Runtime.getRuntime().exec("java -jar app-atualizado.jar");
-        System.exit(0);
+        try 
+        {
+            URL url = new URL(URL_ARQUIVO);
+            InputStream in = url.openStream();
+
+            Files.copy(in, Paths.get("app." + VERSAO_ATUAL + ".jar"), StandardCopyOption.REPLACE_EXISTING);
+        
+            reiniciarAplicativo();
+        }
+        catch(IOException e)
+        {
+            logger.log(Level.SEVERE, "Erro ao baixar atualização", e);
+        }
     }
 
-    private static void iniciarAplicativo() 
+    private void reiniciarAplicativo() throws IOException 
     {
-        // Código para iniciar o aplicativo normalmente
-        System.out.println("Iniciando aplicativo versão " + VERSAO_ATUAL);
+        Runtime.getRuntime().exec("java -jar app." + VERSAO_ATUAL + ".jar");
+        System.exit(0);
     }
 }

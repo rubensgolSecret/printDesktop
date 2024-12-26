@@ -20,17 +20,15 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import org.update4j.Configuration;
-
+import com.print.controler.business.TrataArquivo;
+import com.print.controler.business.comunicaTiny.Comunica;
+import com.print.controler.business.imprimir.ImprimirDesktop;
 import com.print.controler.interfaces.IAtualiza;
 import com.print.controler.interfaces.IImprimir;
 import com.print.controler.interfaces.ITrataArquivo;
-import com.print.controler.business.TrataArquivo;
-import com.print.controler.business.atualizar.update4j.AtualizaUpdate4j;
-import com.print.controler.business.comunicaTiny.Comunica;
-import com.print.controler.business.imprimir.ImprimirDesktop;
 import com.print.model.EnumRetorno;
 import com.print.model.LinkEtiqueta;
+import com.print.util.Atualizador;
 
 public class Tela extends JFrame
 {
@@ -52,7 +50,7 @@ public class Tela extends JFrame
 
 	private TelaErro telaErro;
 
-	public Tela(List<Integer> lidas, Configuration config)
+	public Tela(List<Integer> lidas)
 	{
 		try 
 		{
@@ -60,7 +58,7 @@ public class Tela extends JFrame
 			comunica = new Comunica(lidas);
 			imprimir = new ImprimirDesktop();
 			aTrataArquivo = new TrataArquivo();
-			atualiza = new AtualizaUpdate4j(config);
+			atualiza = new Atualizador();
 			telaErro = new TelaErro();
  
             initializeComponents();
@@ -94,7 +92,7 @@ public class Tela extends JFrame
 	    bParar.addActionListener(e -> {
 	        buscando = false;
 	        setBotoes(buscando);
-	        aTrataArquivo.salvaTxt(comunica.getSeparacoesLidas());
+	        aTrataArquivo.salvaTxt(comunica.getSeparacoesLidas(), null);
 	    });
 	    bParar.setEnabled(buscando);
 	    panelBotao.add(bParar);
@@ -146,7 +144,7 @@ public class Tela extends JFrame
 						for (LinkEtiqueta link : links)
 	                        imprimir.imprimir(link.getLink());
 
-	                    aTrataArquivo.salvaTxt(comunica.getSeparacoesLidas());
+	                    aTrataArquivo.salvaTxt(comunica.getSeparacoesLidas(), null);
 	                }
 
 	                TimeUnit.MILLISECONDS.sleep(5000);
@@ -166,7 +164,7 @@ public class Tela extends JFrame
 
 	private void atualizarAplicativo() 
 	{
-	    if (atualiza.temAtualizacao())
+	    if (atualiza.verificarAtualizacao())
 	        atualiza.atualiza();
 		else 
 	        telaErro.display(EnumRetorno.APLICATIVO_JA_ATUALIZADO);

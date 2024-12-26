@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.zip.ZipEntry;
@@ -28,7 +29,6 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.print.controler.interfaces.ITrataArquivo;
-import java.util.logging.Level;
 import com.print.util.Util;
 
 public class TrataArquivo implements ITrataArquivo
@@ -57,9 +57,12 @@ public class TrataArquivo implements ITrataArquivo
     }
 
     @Override
-    public void salvaTxt(List<Integer> nfLidas)
+    public void salvaTxt(List<Integer> nfLidas, String path)
     {
-        try (FileWriter myWriter = new FileWriter("separacao/" + Util.getDataFormatadaSemBarra() + ".txt"))
+        if (path == null)
+            path = "separacao/" + Util.getDataFormatadaSemBarra() + ".txt";
+
+        try (FileWriter myWriter = new FileWriter(path))
         {
             logger.info("Salvando arquivo com as Separacoes lidas");
             
@@ -159,7 +162,16 @@ public class TrataArquivo implements ITrataArquivo
         return arquivoTxt;
     }
 
-    private static File txtToPdf(File file) throws IOException, DocumentException
+
+    public static File converteZplToPdf(URI uri) throws IOException, DocumentException
+    {
+        File zplFile = new File(FileUtils.getTempDirectoryPath() + "tmp.zpl");
+        FileUtils.copyURLToFile(uri.toURL(), zplFile);
+
+        return txtToPdf(zplFile);
+    }
+
+    public static File txtToPdf(File file) throws IOException, DocumentException
     {
         Document pdfDoc = new Document(PageSize.A4);
         PdfWriter.getInstance(pdfDoc, new FileOutputStream("txt.pdf"))

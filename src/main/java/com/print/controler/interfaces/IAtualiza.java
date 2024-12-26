@@ -4,5 +4,5 @@ public interface IAtualiza
 {
     public void atualiza();
 
-    public boolean temAtualizacao();
+    public boolean verificarAtualizacao();
 }
