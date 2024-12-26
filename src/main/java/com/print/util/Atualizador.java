@@ -16,8 +16,8 @@ import com.print.controler.interfaces.IAtualiza;
 public class Atualizador implements IAtualiza
 {
     private static final String VERSAO_ATUAL = "1.0.0";
-    private static final String URL_VERSAO = "https://example.com/versao.txt";
-    private static final String URL_ARQUIVO = "https://example.com/app.jar";
+    private static final String URL_VERSAO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/versao.txt";
+    private static final String URL_ARQUIVO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/print.jar";
     private static final Logger logger = Logger.getLogger(Atualizador.class.getName());
 
     @Override
