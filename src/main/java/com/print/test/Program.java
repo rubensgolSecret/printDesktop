@@ -6,9 +6,9 @@ import com.print.controler.business.TrataArquivo;
 import com.print.controler.interfaces.IAtualiza;
 import com.print.controler.interfaces.ITrataArquivo;
 import com.print.util.Atualizador;
-import com.print.view.Tela;
+import com.print.view.Login;
 
-public class Program 
+public class Program
 {    
     public static void  main (String[] args)
     {
@@ -25,7 +25,8 @@ public class Program
             System.exit(0);
         }
 
-        Tela tela = new Tela(nfsLidas);
+        Login tela = new Login(nfsLidas);
+
         tela.display();
     }
 }

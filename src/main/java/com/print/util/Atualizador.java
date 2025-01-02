@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,7 +17,7 @@ import com.print.controler.interfaces.IAtualiza;
 
 public class Atualizador implements IAtualiza
 {
-    private static final String VERSAO_ATUAL = "1.0.0";
+    private static final String VERSAO_ATUAL = "1.0.1";
     private static final String URL_VERSAO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/versao.txt";
     private static final String URL_ARQUIVO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/print.jar";
     private static final Logger logger = Logger.getLogger(Atualizador.class.getName());
@@ -25,14 +27,14 @@ public class Atualizador implements IAtualiza
     {
         try 
         {
-            URL url = new URL(URL_VERSAO);
+            URL url = new URI(URL_VERSAO).toURL();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.toURI().toURL().openStream()));
 
             String versaoRemota = reader.readLine().trim();
             return !VERSAO_ATUAL.equals(versaoRemota);
         }
-        catch(IOException e)
+        catch(IOException | URISyntaxException e)
         {
             logger.log(Level.SEVERE, "Erro ao verificar atualização", e);
             return false;
@@ -44,14 +46,15 @@ public class Atualizador implements IAtualiza
     {
         try 
         {
-            URL url = new URL(URL_ARQUIVO);
+            URI uri = new URI(URL_ARQUIVO);
+            URL url = uri.toURL();
             InputStream in = url.openStream();
 
             Files.copy(in, Paths.get("print." + VERSAO_ATUAL + ".jar"), StandardCopyOption.REPLACE_EXISTING);
         
             reiniciarAplicativo();
         }
-        catch(IOException e)
+        catch(IOException | URISyntaxException e)
         {
             logger.log(Level.SEVERE, "Erro ao baixar atualização", e);
         }
@@ -59,7 +62,7 @@ public class Atualizador implements IAtualiza
 
     private void reiniciarAplicativo() throws IOException 
     {
-        Runtime.getRuntime().exec("java -jar print." + VERSAO_ATUAL + ".jar");
+        Runtime.getRuntime().exec(new String[]{"java", "-jar", "print." + VERSAO_ATUAL + ".jar"});
         System.exit(0);
     }
 }
