@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import com.print.controler.business.TrataArquivo;
+import com.print.controler.business.atualizar.Atualizador;
 import com.print.controler.business.comunicaTiny.Comunica;
 import com.print.controler.business.imprimir.ImprimirDesktop;
 import com.print.controler.interfaces.IAtualiza;
@@ -30,7 +31,6 @@ import com.print.controler.interfaces.ITrataArquivo;
 import com.print.model.LinkEtiqueta;
 import com.print.model.enums.EnumIco;
 import com.print.model.enums.EnumRetorno;
-import com.print.util.Atualizador;
 
 public class Token extends JDialog
 {

@@ -3,9 +3,9 @@ package com.print.test;
 import java.util.List;
 
 import com.print.controler.business.TrataArquivo;
+import com.print.controler.business.atualizar.Atualizador;
 import com.print.controler.interfaces.IAtualiza;
 import com.print.controler.interfaces.ITrataArquivo;
-import com.print.util.Atualizador;
 import com.print.view.Login;
 
 public class Program
