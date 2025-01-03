@@ -13,6 +13,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
+import com.print.controler.business.comunicaAPILogin.ComunicaLogin;
+import com.print.model.Usuario;
+import com.print.model.enums.EnumRetorno;
+
 public class Login extends JFrame
 {
     public Login(List<Integer> lidas) 
@@ -32,6 +36,7 @@ public class Login extends JFrame
     private void initComponents() 
     {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         jLabel1 = new JLabel();
         jLabel1.setLabelFor(jTextField1);
@@ -115,6 +120,27 @@ public class Login extends JFrame
 
     private void login()
     {
+        ComunicaLogin comunicaLogin = new ComunicaLogin();
+
+        if (jTextField1.getText().trim().isEmpty() || new String(jPasswordField1.getPassword()).trim().isEmpty())
+        {
+            new Erro().display(EnumRetorno.Usuario_Invalido);
+            return;
+        }
+
+        Usuario usuarioLogado = comunicaLogin.login(jTextField1.getText(), new String(jPasswordField1.getPassword()));
+
+        if (usuarioLogado == null)
+        {
+            new Erro().display(EnumRetorno.Usuario_Nao_Encontrado);
+            return;
+        }
+        else if (usuarioLogado.getLogin() == null)
+        {
+            new Erro().display(EnumRetorno.Usuario_Invalido);
+            return;
+        }
+
         telaToken = new TelaToken(lidas);
         telaToken.display();
         this.setVisible(false);

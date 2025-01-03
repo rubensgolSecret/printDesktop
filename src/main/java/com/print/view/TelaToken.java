@@ -57,6 +57,7 @@ public class TelaToken extends JFrame
         setTitle("Imprimir etiquetas");
         setForeground(java.awt.Color.white);
         setResizable(false);
+        setLocationRelativeTo(null);
 
         lToken = new JLabel();
         lToken.setLabelFor(tToken);

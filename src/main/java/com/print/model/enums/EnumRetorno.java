@@ -8,7 +8,10 @@ public enum EnumRetorno
 	ERRO_HEADER("Parametro inválido","Algum parametro foi passado de forma incorreta!"), 
 	ERROR_404("Problema de conexão","Problema de conex�o com o servidor!"), 
 	ERRO_EM_BRANCO("TOKEN EM BRANCO","TOKEN NÃO PODE FICAR EM BRANCO!"),
-	APLICATIVO_JA_ATUALIZADO("Aplicativo já atualizado","Aplicativo atualizado");
+	APLICATIVO_JA_ATUALIZADO("Aplicativo já atualizado","Aplicativo atualizado"),
+	ERRO_ATUALIZACAO("Erro na atualização","Erro na atualização do aplicativo"),
+	Usuario_Nao_Encontrado("Usuário não encontrado","Usuário não encontrado"),
+	Usuario_Invalido("Usuário ou senha inválido","Usuário ou senha inválido");
 	
 	private EnumRetorno(String descricao, String titulo) 
 	{

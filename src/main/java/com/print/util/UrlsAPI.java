@@ -2,34 +2,14 @@ package com.print.util;
 
 public class UrlsAPI 
 {
-    public static String getSeparacao(String token, int numeroPag)
+    public static String getUsuario(String usuario)
 	{
     	StringBuilder urlParaChamada = new StringBuilder()
-				.append("https://api.tiny.com.br/api2/separacao.pesquisa.php?");
+				.append("http://192.168.0.114:8080/logar?");
 
-    	urlParaChamada.append("token")
+    	urlParaChamada.append("login")
 		  			  .append("=")
-				  	  .append(token)
-				  	  .append("&")
-				  	  .append("formato")
-				  	  .append("=")
-				  	  .append("JSON")
-				  	  .append("&")
-				      .append("dataInicial")
-				      .append("=")
-				      .append(Util.getDataFormatadaMesAnterior())
-				      .append("&")
-				      .append("dataFinal")
-				      .append("=")
-				      .append(Util.getDataFormatada())
-				      .append("&")
-				      .append("pagina")
-				      .append("=")
-				      .append(numeroPag)
-				      .append("&")
-				      .append("situacao")
-				      .append("=")
-				      .append("3");
+				  	  .append(usuario);
 
     	return urlParaChamada.toString();
 	}    
