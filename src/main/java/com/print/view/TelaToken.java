@@ -1,5 +1,6 @@
 package com.print.view;
 
+import java.awt.EventQueue;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -26,7 +27,7 @@ import com.print.model.enums.EnumRetorno;
 
 public class TelaToken extends JFrame 
 {
-    private JButton bIniciar;
+    private JButton bIniciar, bParar;
     private JLabel lToken;
     private JTextField tToken;
 
@@ -70,6 +71,10 @@ public class TelaToken extends JFrame
         bIniciar.setText("Buscar");
         bIniciar.addActionListener(_ -> iniciarBusca());
 
+        bParar = new JButton();
+        bParar.setText("Parar");
+        bParar.addActionListener(_ -> buscando = false);
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -82,6 +87,7 @@ public class TelaToken extends JFrame
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bIniciar)
+                .addComponent(bParar)
                 .addGap(129, 129, 129))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -91,7 +97,9 @@ public class TelaToken extends JFrame
                     .addComponent(lToken)
                     .addComponent(tToken, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(bIniciar)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(bIniciar)
+                    .addComponent(bParar))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -114,10 +122,10 @@ public class TelaToken extends JFrame
         catch (ClassNotFoundException | InstantiationException | 
                IllegalAccessException | UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(TelaToken.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(TelaToken.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(() -> new TelaToken(lidas).setVisible(true));
+        EventQueue.invokeLater(() -> new TelaToken(lidas).setVisible(true));
     }
 
 	private void iniciarBusca()
@@ -184,7 +192,7 @@ public class TelaToken extends JFrame
 	{
 		tToken.setEnabled(! buscando);
 		bIniciar.setEnabled(! buscando);
-		//bParar.setEnabled(buscando);
+		bParar.setEnabled(buscando);
 	}
 
 }
