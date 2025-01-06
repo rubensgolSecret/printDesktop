@@ -33,7 +33,7 @@ public class Comunica
 	{
 		try 
 		{
-			FileHandler fh = new FileHandler("log/log-" + Util.getDataFormatadaSemBarra() + "-comunica.log");
+			FileHandler fh = new FileHandler("resources/log/log-" + Util.getDataFormatadaSemBarra() + "-comunica.log");
 			fh.setEncoding("UTF-8");
 			logger.addHandler(fh);
 			logger.setUseParentHandlers(false);

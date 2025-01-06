@@ -25,7 +25,7 @@ public class ComunicaLogin
 	{
 		try 
 		{
-			FileHandler fh = new FileHandler("log/log-" + Util.getDataFormatadaSemBarra() + "-login.log");
+			FileHandler fh = new FileHandler("resources/log/log-" + Util.getDataFormatadaSemBarra() + "-login.log");
 			fh.setEncoding("UTF-8");
 			logger.addHandler(fh);
 			logger.setUseParentHandlers(false);

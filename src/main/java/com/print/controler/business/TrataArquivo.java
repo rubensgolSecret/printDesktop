@@ -44,7 +44,7 @@ public class TrataArquivo implements ITrataArquivo
      {
         try 
         {
-            FileHandler fh = new FileHandler("log/log-" + Util.getDataFormatadaSemBarra() + "-trata_arquivos.log");
+            FileHandler fh = new FileHandler("resources/log/log-" + Util.getDataFormatadaSemBarra() + "-trata_arquivos.log");
             fh.setEncoding("UTF-8");
             logger.addHandler(fh);
             logger.setUseParentHandlers(false);
@@ -60,7 +60,7 @@ public class TrataArquivo implements ITrataArquivo
     public void salvaTxt(List<Integer> nfLidas, String path)
     {
         if (path == null)
-            path = "separacao/" + Util.getDataFormatadaSemBarra() + ".txt";
+            path = "resources/separacao/" + Util.getDataFormatadaSemBarra() + ".txt";
 
         try (FileWriter myWriter = new FileWriter(path))
         {
@@ -82,7 +82,7 @@ public class TrataArquivo implements ITrataArquivo
     {
         List<Integer> nfs = new ArrayList<>();
         String fileName = Util.getDataFormatadaSemBarra();
-        File myObj = new File("separacao/" + fileName + ".txt");
+        File myObj = new File("resources/separacao/" + fileName + ".txt");
 
         if (myObj.exists()) 
             readFile(nfs, myObj);

@@ -3,6 +3,9 @@
 /separacao
 /target
 
+/src/main/resources/log/*
+/src/main/resources/separacao/*
+
 print.1.0.0.jar
 .gitignore
 app.1.0.0.jar
