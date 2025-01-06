@@ -1,6 +1,8 @@
 package com.print.view;
 
 import java.awt.EventQueue;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -12,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
@@ -38,6 +39,8 @@ public class TelaToken extends JFrame
 
     private boolean buscando = false;
     private final List<Integer> lidas;
+    private Runnable tBuscaRunnable;
+    private Thread tBusca;
 
     private final Erro telaErro;
 
@@ -73,7 +76,11 @@ public class TelaToken extends JFrame
 
         bParar = new JButton();
         bParar.setText("Parar");
-        bParar.addActionListener(_ -> buscando = false);
+        bParar.addActionListener(_ ->
+        {
+            buscando = false;
+            setBotoes(buscando);
+        });
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,47 +148,72 @@ public class TelaToken extends JFrame
 	        return;
 	    }
 
-	    SwingUtilities.invokeLater(() -> 
-		{
-	        try 
-			{
-				EnumRetorno retorno = comunica.verificaConexao(tToken.getText());
+        try 
+        {
+            EnumRetorno retorno = comunica.verificaConexao(tToken.getText());
 
-				switch (retorno)
-				{
-					case ERROR_404 -> telaErro.display(EnumRetorno.ERROR_404);
-					case ERRO_HEADER -> telaErro.display(EnumRetorno.ERRO_HEADER);
-					case ERRO_TOKEN -> telaErro.display(EnumRetorno.ERRO_TOKEN);
-					default -> {}
-                    
-                }
+            switch (retorno)
+            {
+                case ERROR_404 -> telaErro.display(EnumRetorno.ERROR_404);
+                case ERRO_HEADER -> telaErro.display(EnumRetorno.ERRO_HEADER);
+                case ERRO_TOKEN -> telaErro.display(EnumRetorno.ERRO_TOKEN);
+                default -> {}
+                
+            }
 
-                buscando = retorno == EnumRetorno.SUCESSO || retorno == EnumRetorno.SUCESSO_EM_BRANCO;
+            buscando = retorno == EnumRetorno.SUCESSO || retorno == EnumRetorno.SUCESSO_EM_BRANCO;
 
-                setBotoes(buscando);
+            setBotoes(buscando);
 
-	            while (buscando) 
-				{
-	                if (retorno == EnumRetorno.SUCESSO || retorno == EnumRetorno.SUCESSO_EM_BRANCO)
-					{
-	                    setBotoes(buscando);
-	                    links = comunica.getEtiquetas(tToken.getText());
-	                    
-						for (LinkEtiqueta link : links)
-	                        imprimir.imprimir(link.getLink());
-
-	                    aTrataArquivo.salvaTxt(comunica.getSeparacoesLidas(), null);
-	                }
-
-	                TimeUnit.MILLISECONDS.sleep(5000);
-	            }
-	        } 
-			catch (Exception e) 
-			{
-	            Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, e);
-	        }
-	    });
+            if (buscando)
+            {
+                EventQueue.invokeLater(() ->
+                {
+                    try 
+                    {
+                        buscar(tToken.getText());
+                    }
+                    catch (InterruptedException | URISyntaxException | IOException ex) 
+                    {
+                        Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }
+        } 
+        catch (Exception e) 
+        {
+            Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, e);
+        }
 	}
+
+    private void buscar(String token) throws InterruptedException, URISyntaxException, IOException 
+    {
+        tBuscaRunnable = () -> 
+        {
+            try 
+            {
+                while (buscando) 
+                {
+                    setBotoes(buscando);
+                    links = comunica.getEtiquetas(token);
+                    
+                    for (LinkEtiqueta link : links)
+                        imprimir.imprimir(link.getLink());
+        
+                    aTrataArquivo.salvaTxt(comunica.getSeparacoesLidas(), null);
+        
+                    TimeUnit.MILLISECONDS.sleep(5000);
+                }
+            } 
+            catch (InterruptedException | URISyntaxException | IOException e) 
+            {
+                Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, e);
+            }
+        };
+
+        tBusca = new Thread(tBuscaRunnable);
+        tBusca.start();
+    }
 
     private boolean isTokenInvalido() 
 	{
