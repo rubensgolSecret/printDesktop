@@ -1,5 +1,6 @@
 package com.print.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class TelaToken extends JFrame
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle(Descricoes.getDescricao("titulo"));
         setIconImage(getIcone());
-        setForeground(java.awt.Color.white);
+        getContentPane().setBackground(new Color(32, 91, 247));
         setResizable(false);
         setLocationRelativeTo(null);
 

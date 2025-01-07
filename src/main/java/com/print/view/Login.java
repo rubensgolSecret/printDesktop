@@ -1,7 +1,10 @@
 package com.print.view;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.net.URL;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -43,6 +46,7 @@ public class Login extends JFrame
         setIconImage(getIcone());
         setTitle(Descricoes.getDescricao("titulo"));
         setResizable(false);
+        getContentPane().setBackground(new Color(32, 91, 247));
 
         jLabel1 = new JLabel();
         jLabel1.setLabelFor(jTextField1);
@@ -115,7 +119,7 @@ public class Login extends JFrame
         catch (ClassNotFoundException | InstantiationException | 
                IllegalAccessException | UnsupportedLookAndFeelException ex) 
         {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(() ->
@@ -126,7 +130,9 @@ public class Login extends JFrame
 
     private Image getIcone()  
     {
-        ImageIcon icon = new ImageIcon(Descricoes.getDescricao("icone"));
+        URL path = ClassLoader.getSystemResource(Descricoes.getDescricao("icone"));
+
+        ImageIcon icon = new ImageIcon(path);
 
         return icon.getImage();
     }
