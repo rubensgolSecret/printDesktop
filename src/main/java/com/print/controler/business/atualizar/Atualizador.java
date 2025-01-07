@@ -21,6 +21,7 @@ public class Atualizador implements IAtualiza
     private static final String URL_VERSAO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/versao.txt";
     private static final String URL_ARQUIVO = "https://raw.githubusercontent.com/rubensgolSecret/printDesktop/refs/heads/main/print.jar";
     private static final Logger logger = Logger.getLogger(Atualizador.class.getName());
+    private String versaoRemota;
 
     @Override
     public boolean verificarAtualizacao() 
@@ -31,7 +32,7 @@ public class Atualizador implements IAtualiza
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.toURI().toURL().openStream()));
 
-            String versaoRemota = reader.readLine().trim();
+            versaoRemota = reader.readLine().trim();
             return !VERSAO_ATUAL.equals(versaoRemota);
         }
         catch(IOException | URISyntaxException e)
@@ -50,7 +51,7 @@ public class Atualizador implements IAtualiza
             URL url = uri.toURL();
             InputStream in = url.openStream();
 
-            Files.copy(in, Paths.get("print." + URL_VERSAO + ".jar"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(in, Paths.get("print." + versaoRemota + ".jar"), StandardCopyOption.REPLACE_EXISTING);
         
             reiniciarAplicativo();
         }
@@ -62,7 +63,7 @@ public class Atualizador implements IAtualiza
 
     private void reiniciarAplicativo() throws IOException 
     {
-        Runtime.getRuntime().exec(new String[]{"java", "-jar", "print." + URL_VERSAO + ".jar"});
+        Runtime.getRuntime().exec(new String[]{"java", "-jar", "print." + versaoRemota + ".jar"});
         System.exit(0);
     }
 }
