@@ -1,10 +1,11 @@
 package com.print.model.enums;
 
+import com.print.util.Descricoes;
+
 public enum EnumIco 
 {
-    HOME("home.png"),
-    COMECA("comecar.png");
-    
+    HOME(Descricoes.getDescricao("ico"));
+
     private EnumIco(String descricao) 
     {
         this.descricao = descricao;

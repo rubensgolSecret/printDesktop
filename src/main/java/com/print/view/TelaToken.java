@@ -1,6 +1,7 @@
 package com.print.view;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,6 +27,7 @@ import com.print.controler.interfaces.IImprimir;
 import com.print.controler.interfaces.ITrataArquivo;
 import com.print.model.LinkEtiqueta;
 import com.print.model.enums.EnumRetorno;
+import com.print.util.Descricoes;
 
 public class TelaToken extends JFrame 
 {
@@ -58,24 +61,25 @@ public class TelaToken extends JFrame
     private void initComponents() 
     {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Imprimir etiquetas");
+        setTitle(Descricoes.getDescricao("titulo"));
+        setIconImage(getIcone());
         setForeground(java.awt.Color.white);
         setResizable(false);
         setLocationRelativeTo(null);
 
         lToken = new JLabel();
         lToken.setLabelFor(tToken);
-        lToken.setText("Token:");
-        lToken.setToolTipText("");
+        lToken.setText(Descricoes.getDescricao("token"));
+        lToken.setToolTipText(Descricoes.getDescricao("tooltipToken"));
 
         tToken = new JTextField();
 
         bIniciar = new JButton();
-        bIniciar.setText("Buscar");
+        bIniciar.setText(Descricoes.getDescricao("inicar"));
         bIniciar.addActionListener(_ -> iniciarBusca());
 
         bParar = new JButton();
-        bParar.setText("Parar");
+        bParar.setText(Descricoes.getDescricao("parar"));
         bParar.addActionListener(_ ->
         {
             buscando = false;
@@ -220,11 +224,17 @@ public class TelaToken extends JFrame
 	    return tToken.getText() == null || tToken.getText().trim().isEmpty();
 	}
 
+    private Image getIcone()  
+    {
+        ImageIcon icon = new ImageIcon(Descricoes.getDescricao("icone"));
+
+        return icon.getImage();
+    }
+
     private void setBotoes(boolean buscando)
 	{
 		tToken.setEnabled(! buscando);
 		bIniciar.setEnabled(! buscando);
 		bParar.setEnabled(buscando);
 	}
-
 }

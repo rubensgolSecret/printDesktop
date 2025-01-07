@@ -1,8 +1,10 @@
 package com.print.view;
 
+import java.awt.Image;
 import java.util.List;
 
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.WindowConstants;
 import com.print.controler.business.comunicaAPILogin.ComunicaLogin;
 import com.print.model.Usuario;
 import com.print.model.enums.EnumRetorno;
+import com.print.util.Descricoes;
 
 public class Login extends JFrame
 {
@@ -37,22 +40,25 @@ public class Login extends JFrame
     {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setIconImage(getIcone());
+        setTitle(Descricoes.getDescricao("titulo"));
+        setResizable(false);
 
         jLabel1 = new JLabel();
         jLabel1.setLabelFor(jTextField1);
-        jLabel1.setText("Login:");
+        jLabel1.setText(Descricoes.getDescricao("login"));
 
         jTextField1 = new JTextField();
-        jTextField1.setToolTipText("Digite o login");
+        jTextField1.setToolTipText(Descricoes.getDescricao("tooltip_login"));
 
         jLabel2 = new JLabel();
-        jLabel2.setText("Senha:");
+        jLabel2.setText(Descricoes.getDescricao("senha"));
 
         jPasswordField1 = new JPasswordField();
-        jPasswordField1.setToolTipText("");
+        jPasswordField1.setToolTipText(Descricoes.getDescricao("tooltip_senha"));
 
         jButton1 = new JButton();
-        jButton1.setText("Logar");
+        jButton1.setText(Descricoes.getDescricao("entrar"));
         jButton1.addActionListener(_ -> login());
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -116,6 +122,13 @@ public class Login extends JFrame
         {
             new Login(lidas).setVisible(true);
         });
+    }
+
+    private Image getIcone()  
+    {
+        ImageIcon icon = new ImageIcon(Descricoes.getDescricao("icone"));
+
+        return icon.getImage();
     }
 
     private void login()

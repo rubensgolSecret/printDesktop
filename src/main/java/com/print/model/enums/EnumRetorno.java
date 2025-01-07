@@ -1,17 +1,19 @@
 package com.print.model.enums;
 
+import com.print.util.Descricoes;
+
 public enum EnumRetorno
 {
-	SUCESSO("Sucesso","Sucesso!"), 
-	SUCESSO_EM_BRANCO("Sucesso","Sucesso sem registro!"), 
-	ERRO_TOKEN("Token Inválido","Token Inválido!"), 
-	ERRO_HEADER("Parametro inválido","Algum parametro foi passado de forma incorreta!"), 
-	ERROR_404("Problema de conexão","Problema de conex�o com o servidor!"), 
-	ERRO_EM_BRANCO("TOKEN EM BRANCO","TOKEN NÃO PODE FICAR EM BRANCO!"),
-	APLICATIVO_JA_ATUALIZADO("Aplicativo já atualizado","Aplicativo atualizado"),
-	ERRO_ATUALIZACAO("Erro na atualização","Erro na atualização do aplicativo"),
-	Usuario_Nao_Encontrado("Usuário não encontrado","Usuário não encontrado"),
-	Usuario_Invalido("Usuário ou senha inválido","Usuário ou senha inválido");
+	SUCESSO(Descricoes.getDescricao("sucesso"), Descricoes.getDescricao("sucesso_descricao")), 
+	SUCESSO_EM_BRANCO(Descricoes.getDescricao("sucesso"), Descricoes.getDescricao("sucesso_descricao")), 
+	ERRO_TOKEN(Descricoes.getDescricao("erro_token"), Descricoes.getDescricao("erro_token_descricao")), 
+	ERRO_HEADER(Descricoes.getDescricao("erro_header"), Descricoes.getDescricao("erro_header_descricao")), 
+	ERROR_404(Descricoes.getDescricao("erro_404"), Descricoes.getDescricao("erro_404_descricao")), 
+	ERRO_EM_BRANCO(Descricoes.getDescricao("erro_em_branco"), Descricoes.getDescricao("erro_em_branco_descricao")),
+	APLICATIVO_JA_ATUALIZADO(Descricoes.getDescricao("aplica_ja_atualizado"), Descricoes.getDescricao("aplica_ja_atualizado_descricao")),
+	ERRO_ATUALIZACAO(Descricoes.getDescricao("erro_atualizacao"), Descricoes.getDescricao("erro_atualizacao_descricao")),
+	Usuario_Nao_Encontrado(Descricoes.getDescricao("usuario_nao_encontrado"), Descricoes.getDescricao("usuario_nao_encontrado_descricao")),
+	Usuario_Invalido(Descricoes.getDescricao("usuario_invalido"), Descricoes.getDescricao("usuario_invalido_descricao")),;
 	
 	private EnumRetorno(String descricao, String titulo) 
 	{

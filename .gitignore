@@ -1,10 +1,8 @@
 /.vscode
-/log
-/separacao
 /target
 
-/src/main/resources/log/*
-/src/main/resources/separacao/*
+resources/log/*
+resources/separacao/*
 
 print.1.0.0.jar
 .gitignore
